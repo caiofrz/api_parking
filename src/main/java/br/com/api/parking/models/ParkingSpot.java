@@ -1,7 +1,6 @@
 package br.com.api.parking.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,7 +13,7 @@ import java.util.UUID;
 public class ParkingSpot {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
   @Column(nullable = false, unique = true, length = 5)
@@ -35,5 +34,5 @@ public class ParkingSpot {
   private String block;
 
   @CreationTimestamp
-  private String registrationDate;
+  private LocalDateTime registrationDate;
 }
