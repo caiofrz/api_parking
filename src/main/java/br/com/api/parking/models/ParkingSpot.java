@@ -3,8 +3,6 @@ package br.com.api.parking.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.TimeZoneColumn;
-import org.hibernate.annotations.TimeZoneStorage;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -36,9 +34,6 @@ public class ParkingSpot {
   private String block;
 
   @Column(nullable = false)
-  @Temporal(TemporalType.TIMESTAMP)
   @CreationTimestamp
   private Timestamp registrationDate;
-
-
 }
