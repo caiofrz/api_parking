@@ -3,8 +3,10 @@ package br.com.api.parking.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.TimeZoneColumn;
+import org.hibernate.annotations.TimeZoneStorage;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
@@ -33,6 +35,10 @@ public class ParkingSpot {
   @Column(nullable = false, length = 30)
   private String block;
 
+  @Column(nullable = false)
+  @Temporal(TemporalType.TIMESTAMP)
   @CreationTimestamp
-  private LocalDateTime registrationDate;
+  private Timestamp registrationDate;
+
+
 }
