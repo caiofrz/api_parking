@@ -6,11 +6,12 @@ import br.com.api.parking.exceptions.SpotNotFoundException;
 import br.com.api.parking.models.ParkingSpot;
 import br.com.api.parking.services.ParkingSpotService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -30,8 +31,8 @@ public class ParkingSpotController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ParkingSpot>> getAll() {
-    return ResponseEntity.status(HttpStatus.OK).body(this.service.findAll());
+  public ResponseEntity<Page<ParkingSpot>> getAll(Pageable pageable) {
+    return ResponseEntity.status(HttpStatus.OK).body(this.service.findAll(pageable));
   }
 
   @GetMapping("/{id}")

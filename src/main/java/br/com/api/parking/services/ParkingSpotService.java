@@ -7,9 +7,10 @@ import br.com.api.parking.models.ParkingSpot;
 import br.com.api.parking.repositories.ParkingSpotRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,8 +31,8 @@ public class ParkingSpotService {
     return this.repository.save(parkingSpot);
   }
 
-  public List<ParkingSpot> findAll() {
-    return this.repository.findAll();
+  public Page<ParkingSpot> findAll(Pageable pageable) {
+    return this.repository.findAll(pageable);
   }
 
   public ParkingSpot findById(UUID id) {
