@@ -1,6 +1,7 @@
 package br.com.api.parking.models;
 
 import br.com.api.parking.enums.UserRole;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,25 +14,31 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+@Schema(description = "User Model")
 @Entity
 @Table(name = "tb_users")
 @Data
 public class User implements UserDetails {
 
+  @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "User Id", type = "UUID")
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;
 
+  @Schema(description = "Nome do usuário", example = "Caio Ferraz")
   @Column(nullable = false)
   private String name;
+  @Schema(description = "Email do usuário", example = "caio@teste.com")
   @Column(nullable = false, unique = true)
   private String email;
-  @Column(nullable = false)
+  @Schema(description = "Senha do usuário", example = "12345678")
   private String password;
+  @Schema(description = "Nível de acesso do usuário", example = "ADMIN ou USER")
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private UserRole role;
 
+  @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "Data de registro do usuário")
   @Column(nullable = false)
   @CreationTimestamp
   private Timestamp createdAt;

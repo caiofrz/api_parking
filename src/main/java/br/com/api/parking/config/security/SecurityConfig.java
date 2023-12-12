@@ -3,6 +3,7 @@ package br.com.api.parking.config.security;
 import br.com.api.parking.services.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -35,11 +36,12 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorize) -> authorize
-                    .requestMatchers("auth/register").permitAll()
-                    .requestMatchers("auth/login").permitAll()
-                    .requestMatchers("users").hasRole("ADMIN")
-                    .requestMatchers("spots").hasAnyRole("ADMIN", "USER")
-                    .anyRequest().authenticated()
+                    .requestMatchers(HttpMethod.GET,"/docs").permitAll()
+                    .requestMatchers("/auth/register").permitAll()
+                    .requestMatchers("/auth/login").permitAll()
+                    .requestMatchers("/users").hasRole("ADMIN")
+                    .requestMatchers("/spots").hasAnyRole("ADMIN", "USER")
+                    .anyRequest().permitAll()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
