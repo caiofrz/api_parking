@@ -37,8 +37,8 @@ public class SecurityConfig {
             .authorizeHttpRequests((authorize) -> authorize
                     .requestMatchers("auth/register").permitAll()
                     .requestMatchers("auth/login").permitAll()
-                    .requestMatchers("user").hasRole("ADMIN")
-                    .requestMatchers("api/parking").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("users").hasRole("ADMIN")
+                    .requestMatchers("spots").hasAnyRole("ADMIN", "USER")
                     .anyRequest().authenticated()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
