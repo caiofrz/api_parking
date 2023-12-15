@@ -32,6 +32,7 @@ api/parking/docs
 
 - CRUD das vagas de estacionamento
 - CRUD de usuários
+- Consultas paginadas e ordenadas
 - Autenticação JWT
 
 
