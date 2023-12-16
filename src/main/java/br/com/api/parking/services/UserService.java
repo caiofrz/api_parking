@@ -3,6 +3,7 @@ package br.com.api.parking.services;
 import br.com.api.parking.dtos.UserDTO;
 import br.com.api.parking.enums.UserRole;
 import br.com.api.parking.exceptions.UserAlreadyCreatedException;
+import br.com.api.parking.mappers.UserMapper;
 import br.com.api.parking.models.User;
 import br.com.api.parking.repositories.UserRepository;
 import io.micrometer.common.util.StringUtils;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class UserService {
 
   private final UserRepository repository;
+  private final UserMapper mapper = UserMapper.INSTANCE;
+
 
   public UserService(UserRepository repository) {
     this.repository = repository;
@@ -28,11 +31,9 @@ public class UserService {
   @Transactional
   public User save(UserDTO userDTO) {
     //TODO utilizar a lib MapStruct
-    User user = new User();
-    BeanUtils.copyProperties(userDTO, user);
+    User user = mapper.INSTANCE.dtoToEntity(userDTO);
     this.validateEmail(user.getEmail());
     this.encodeAndSetPassword(user);
-    user.setRole(UserRole.valueOf(userDTO.getRole()));
     return this.repository.save(user);
   }
 
@@ -46,12 +47,10 @@ public class UserService {
 
   @Transactional
   public User update(UserDTO userDTO, UUID id) {
-    User user = new User();
-    BeanUtils.copyProperties(userDTO, user);
+    User user = mapper.INSTANCE.dtoToEntity(userDTO);
     this.find(id);
     user.setId(id);
     this.encodeAndSetPassword(user);
-    user.setRole(UserRole.valueOf(userDTO.getRole()));
     return this.repository.save(user);
   }
 
