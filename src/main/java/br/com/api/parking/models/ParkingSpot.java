@@ -27,16 +27,16 @@ public class ParkingSpot {
   private String responsibleName;
   @Schema(description = "Placa do veículo", example = "O13PZ20")
   @Column(nullable = false, unique = true, length = 7)
-  private String licensePlateCar;
+  private String licensePlateVehicle;
   @Schema(description = "Marca do veículo", example = "Fiat")
   @Column(nullable = false, length = 40)
-  private String brandCar;
+  private String brandVehicle;
   @Schema(description = "Modelo do veículo", example = "Palio")
   @Column(nullable = false, length = 40)
-  private String modelCar;
+  private String modelVehicle;
   @Schema(description = "Cor do veículo", example = "Preto")
   @Column(nullable = false, length = 30)
-  private String colorCar;
+  private String colorVehicle;
   @Schema(description = "Numero do apartamento", example = "1A")
   @Column(nullable = false, length = 30)
   private String apartment;

@@ -1,7 +1,6 @@
 package br.com.api.parking.controllers;
 
 import br.com.api.parking.dtos.ParkingSpotDTO;
-import br.com.api.parking.dtos.UserDTO;
 import br.com.api.parking.exceptions.SpotAlreadyExistsException;
 import br.com.api.parking.exceptions.SpotNotFoundException;
 import br.com.api.parking.models.ParkingSpot;
@@ -35,7 +34,7 @@ public class ParkingSpotController {
   }
 
   @ApiResponses({
-          @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = ParkingSpot.class), mediaType = "application/json") }),
+          @ApiResponse(responseCode = "201", content = {@Content(schema = @Schema(implementation = ParkingSpot.class), mediaType = "application/json")}),
           @ApiResponse(responseCode = "403", content = {@Content()}),
           @ApiResponse(responseCode = "401", description = "Falha na verificação do Token!", content = {@Content()}),
           @ApiResponse(responseCode = "409", description = "Já existe uma vaga cadastrada com esses dados!", content = {@Content()})
@@ -47,7 +46,7 @@ public class ParkingSpotController {
   }
 
   @ApiResponses({
-          @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
+          @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(), mediaType = "application/json")}),
           @ApiResponse(responseCode = "404", description = "Spot não encontrado!", content = {@Content()}),
           @ApiResponse(responseCode = "403", content = {@Content()}),
           @ApiResponse(responseCode = "401", description = "Falha na verificação do Token!", content = {@Content()}),
@@ -63,7 +62,7 @@ public class ParkingSpotController {
   }
 
   @ApiResponses({
-          @ApiResponse(responseCode = "200", content = { @Content(schema = @Schema(implementation = ParkingSpot.class), mediaType = "application/json") }),
+          @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = ParkingSpot.class), mediaType = "application/json")}),
           @ApiResponse(responseCode = "404", description = "Spot não encontrado!", content = {@Content()}),
           @ApiResponse(responseCode = "403", content = {@Content()}),
           @ApiResponse(responseCode = "401", content = {@Content()}, description = "Falha na verificação do Token!"),
@@ -74,7 +73,7 @@ public class ParkingSpotController {
   }
 
   @ApiResponses({
-          @ApiResponse(responseCode = "201", content = { @Content(schema = @Schema(implementation = User.class), mediaType = "application/json") }),
+          @ApiResponse(responseCode = "201", content = {@Content(schema = @Schema(implementation = User.class), mediaType = "application/json")}),
           @ApiResponse(responseCode = "400", description = "Erro na requisição", content = {@Content()}),
           @ApiResponse(responseCode = "404", description = "Spot não encontrado!", content = {@Content()}),
           @ApiResponse(responseCode = "403", content = {@Content()}),
@@ -87,7 +86,7 @@ public class ParkingSpotController {
   }
 
   @ApiResponses({
-          @ApiResponse(responseCode = "204", content = { @Content(schema = @Schema(), mediaType = "application/json") }),
+          @ApiResponse(responseCode = "204", content = {@Content(schema = @Schema(), mediaType = "application/json")}),
           @ApiResponse(responseCode = "404", description = "Spot não encontrado!", content = {@Content()}),
           @ApiResponse(responseCode = "403", content = {@Content()}),
           @ApiResponse(responseCode = "401", description = "Falha na verificação do Token!", content = {@Content()}),

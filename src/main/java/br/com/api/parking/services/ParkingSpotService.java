@@ -3,6 +3,7 @@ package br.com.api.parking.services;
 import br.com.api.parking.dtos.ParkingSpotDTO;
 import br.com.api.parking.exceptions.SpotAlreadyExistsException;
 import br.com.api.parking.exceptions.SpotNotFoundException;
+import br.com.api.parking.mappers.ParkingSpotMapper;
 import br.com.api.parking.models.ParkingSpot;
 import br.com.api.parking.repositories.ParkingSpotRepository;
 import jakarta.transaction.Transactional;
@@ -17,6 +18,8 @@ import java.util.UUID;
 public class ParkingSpotService {
 
   private final ParkingSpotRepository repository;
+  private final ParkingSpotMapper mapper = ParkingSpotMapper.INSTANCE;
+
 
   public ParkingSpotService(ParkingSpotRepository repository) {
     this.repository = repository;
@@ -25,8 +28,7 @@ public class ParkingSpotService {
   @Transactional
   public ParkingSpot save(ParkingSpotDTO parkingSpotDTO) {
     //TODO utilizar a lib MapStruct
-    ParkingSpot parkingSpot = new ParkingSpot();
-    BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);
+    ParkingSpot parkingSpot = mapper.dtoToEntity(parkingSpotDTO);
     this.verifyExists(parkingSpot);
     return this.repository.save(parkingSpot);
   }
@@ -41,8 +43,7 @@ public class ParkingSpotService {
 
   @Transactional
   public ParkingSpot update(ParkingSpotDTO parkingSpotDTO, UUID id) {
-    ParkingSpot parkingSpot = new ParkingSpot();
-    BeanUtils.copyProperties(parkingSpotDTO, parkingSpot);
+    ParkingSpot parkingSpot = mapper.dtoToEntity(parkingSpotDTO);
     this.find(id);
     parkingSpot.setId(id);
     return this.repository.save(parkingSpot);
@@ -56,15 +57,15 @@ public class ParkingSpotService {
 
   private void verifyExists(ParkingSpot parkingSpot) {
     String spotNumber = parkingSpot.getSpotNumber();
-    String licensePlateCar = parkingSpot.getLicensePlateCar();
+    String licensePlateVehicle = parkingSpot.getLicensePlateVehicle();
     String apartment = parkingSpot.getApartment();
     String block = parkingSpot.getBlock();
 
     if (this.repository.existsBySpotNumber(spotNumber)) {
       throw new SpotAlreadyExistsException("A vaga " + spotNumber + " já existe!");
     }
-    if (this.repository.existsByLicensePlateCar(licensePlateCar)) {
-      throw new SpotAlreadyExistsException("Já existe uma vaga cadastrada associada a placa " + licensePlateCar + "!");
+    if (this.repository.existsByLicensePlateVehicle(licensePlateVehicle)) {
+      throw new SpotAlreadyExistsException("Já existe uma vaga cadastrada associada a placa " + licensePlateVehicle + "!");
     }
     if (this.repository.existsByApartmentAndBlock(apartment, block)) {
       throw new SpotAlreadyExistsException(
