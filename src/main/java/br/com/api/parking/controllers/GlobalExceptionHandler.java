@@ -1,10 +1,12 @@
 package br.com.api.parking.controllers;
 
+import br.com.api.parking.exceptions.ErrorResponse;
 import br.com.api.parking.exceptions.SpotAlreadyExistsException;
 import br.com.api.parking.exceptions.SpotNotFoundException;
 import br.com.api.parking.exceptions.UserAlreadyCreatedException;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,47 +24,64 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(SpotAlreadyExistsException.class)
-  public ResponseEntity<String> handleSpotRegistrationException(SpotAlreadyExistsException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+  public ResponseEntity<ErrorResponse> handleSpotRegistrationException(SpotAlreadyExistsException ex,
+                                                                       HttpServletRequest request) {
+    return response(ex.getMessage(), request, HttpStatus.CONFLICT, LocalDateTime.now());
   }
 
   @ExceptionHandler(SpotNotFoundException.class)
-  public  ResponseEntity<String> handleSpotNotFoundException(SpotNotFoundException ex){
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  public ResponseEntity<ErrorResponse> handleSpotNotFoundException(SpotNotFoundException ex,
+                                                                   HttpServletRequest request) {
+    return response(ex.getMessage(), request, HttpStatus.NOT_FOUND, LocalDateTime.now());
   }
 
   @ExceptionHandler(UserAlreadyCreatedException.class)
-  public ResponseEntity<String> handleUserRegistrationException(UserAlreadyCreatedException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+  public ResponseEntity<ErrorResponse> handleUserRegistrationException(UserAlreadyCreatedException ex,
+                                                                       HttpServletRequest request) {
+    return response(ex.getMessage(), request, HttpStatus.CONFLICT, LocalDateTime.now());
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<Object> handleUserRegistrationException(MethodArgumentNotValidException ex) {
+  public ResponseEntity<ErrorResponse> handleUserRegistrationException(MethodArgumentNotValidException ex,
+                                                                       HttpServletRequest request) {
     Map<String, String> errors = new HashMap<>();
     for (FieldError error : ex.getBindingResult().getFieldErrors()) {
       errors.put(error.getField(), error.getDefaultMessage());
     }
-    return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    return response(errors.toString(), request, HttpStatus.BAD_REQUEST, LocalDateTime.now());
   }
 
   @ExceptionHandler(JWTCreationException.class)
-  public ResponseEntity<String> handleJWTCreationException(JWTCreationException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  public ResponseEntity<ErrorResponse> handleJWTCreationException(JWTCreationException ex,
+                                                                  HttpServletRequest request) {
+    return response(ex.getMessage(), request, HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now());
   }
 
   @ExceptionHandler(JWTVerificationException.class)
-  public ResponseEntity<String> handleJWTVerificationException(JWTVerificationException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+  public ResponseEntity<ErrorResponse> handleJWTVerificationException(JWTVerificationException ex,
+                                                                      HttpServletRequest request) {
+    return response(ex.getMessage(), request, HttpStatus.UNAUTHORIZED, LocalDateTime.now());
   }
 
   @ExceptionHandler(UsernameNotFoundException.class)
-  public ResponseEntity<String> handleUsernameNotFoundException(UsernameNotFoundException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+  public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException ex,
+                                                                       HttpServletRequest request) {
+    return response(ex.getMessage(), request, HttpStatus.NOT_FOUND, LocalDateTime.now());
   }
 
   @ExceptionHandler(BadCredentialsException.class)
-  public ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex) {
-    return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+  public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex,
+                                                                     HttpServletRequest request) {
+    return response(ex.getMessage(), request, HttpStatus.FORBIDDEN, LocalDateTime.now());
+  }
+
+  private ResponseEntity<ErrorResponse> response(final String message,
+                                                 final HttpServletRequest request,
+                                                 final HttpStatus status,
+                                                 LocalDateTime date) {
+    return ResponseEntity
+            .status(status)
+            .body(new ErrorResponse(message, date, status.value(), request.getRequestURI()));
   }
 }
 
