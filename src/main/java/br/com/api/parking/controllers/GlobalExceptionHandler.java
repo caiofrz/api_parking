@@ -38,6 +38,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(UserAlreadyCreatedException.class)
   public ResponseEntity<ErrorResponse> handleUserRegistrationException(UserAlreadyCreatedException ex,
                                                                        HttpServletRequest request) {
+
     return response(ex.getMessage(), request, HttpStatus.CONFLICT, LocalDateTime.now());
   }
 
@@ -78,10 +79,10 @@ public class GlobalExceptionHandler {
   private ResponseEntity<ErrorResponse> response(final String message,
                                                  final HttpServletRequest request,
                                                  final HttpStatus status,
-                                                 LocalDateTime date) {
+                                                 LocalDateTime timestamp) {
     return ResponseEntity
             .status(status)
-            .body(new ErrorResponse(message, date, status.value(), request.getRequestURI()));
+            .body(new ErrorResponse(timestamp, status.value(), message, request.getRequestURI()));
   }
 }
 
