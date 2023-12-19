@@ -17,7 +17,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -43,6 +45,9 @@ public class SecurityConfig {
                     .requestMatchers("/spots").hasAnyRole("ADMIN", "USER")
                     .anyRequest().permitAll()
             )
+            .exceptionHandling(exception -> exception
+                    .authenticationEntryPoint(authenticationEntryPoint())
+                    .accessDeniedHandler(accessDeniedHandler()))
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
     return http.build();
   }
@@ -75,4 +80,13 @@ public class SecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
+  @Bean
+  public AccessDeniedHandler accessDeniedHandler(){
+    return new CustomAccessDeniedHandler();
+  }
+
+  @Bean
+  public AuthenticationEntryPoint authenticationEntryPoint() {
+    return new CustomAuthenticationEntryPoint();
+  }
 }
