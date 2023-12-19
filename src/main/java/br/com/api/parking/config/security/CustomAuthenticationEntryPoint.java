@@ -16,7 +16,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
   public void commence(HttpServletRequest request,
                        HttpServletResponse response,
                        AuthenticationException authException) throws IOException {
-    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Unauthorized");
+    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Usuário desconhecido");
   }
 }
 
