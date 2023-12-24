@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Tag(name = "ParkingSpot", description = "Endpoints para o controle das vagas")
+@CrossOrigin
 @RestController
 @RequestMapping("spots")
 public class ParkingSpotController {

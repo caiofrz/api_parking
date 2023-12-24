@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Tag(name = "Users", description = "Endpoints para o controle dos usuários")
+@CrossOrigin
 @RestController
 @RequestMapping("users")
 public class UserController {
