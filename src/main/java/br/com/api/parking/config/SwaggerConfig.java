@@ -26,7 +26,7 @@ public class SwaggerConfig {
                     .description("API para controle de estacionamento de condomínio/prédio")
                     .contact(contato)
             )
-            .addServersItem(new Server().url("apiparking-production.up.railway.app"))
+            .addServersItem(new Server().url(""))
             .addServersItem(new Server().url("http://localhost:8080"));
   };
 }
