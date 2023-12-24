@@ -11,10 +11,13 @@ Este projeto trata-se de uma API REST para controle de estacionamento de um cond
 * Java 17
 * Spring Framework
 * PostgreSQL
+* H2 DataBase
+* JWT
 * Swagger
 * Junit 5
+* Mockito
 * Maven
-* Railway (para versionar o banco)
+* Railway (para versionar o banco e deploy)
 * Postman
 * IntelliJ
 
@@ -25,7 +28,7 @@ A documentação da API foi gerada usando SpringDocs Swagger.
 
 Pode ser acessada pelo endpoint:
 ```
-api/parking/docs
+/docs
 ```
 
 ## Funcionalidades
@@ -48,7 +51,7 @@ api/parking/docs
 
 * Uso da lib MapStruct para conversão entre DTO's E Model's
 
-* Spring profiles: Separação dos ambientes de DEV e PROD.
+* Spring profiles: Separação dos ambientes de TEST, DEV e PROD.
 
 ## Feedback
 
